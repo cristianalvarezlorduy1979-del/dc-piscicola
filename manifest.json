@@ -1,0 +1,25 @@
+{
+  "name": "DC Piscícola",
+  "short_name": "DC Piscícola",
+  "description": "Sistema Integral de Gestión Acuícola - 10 Estanques y 3 Geomembranas",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f172a",
+  "theme_color": "#0891b2",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "img/dc_logo.jpg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "img/dc_logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

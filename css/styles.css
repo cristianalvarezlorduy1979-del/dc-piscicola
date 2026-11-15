@@ -1,0 +1,364 @@
+/* Custom styles for Piscícola Pro AquaManager */
+
+/* ==========================================================================
+   Critical CSS Reset & Fallback (Ensures layout never breaks on mobile/offline)
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Visibility safeguard - only apply when not overridden by responsive display utilities */
+.hidden:not(.md\:flex):not(.md\:block):not(.md\:grid):not(.sm\:block):not(.sm\:flex) {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .login-desktop-showcase,
+  .hidden-mobile,
+  .hidden.md\:flex,
+  .hidden.md\:block,
+  .hidden.md\:grid {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .login-desktop-showcase {
+    display: flex !important;
+  }
+  .md\:flex {
+    display: flex !important;
+  }
+  .md\:block {
+    display: block !important;
+  }
+  .md\:grid {
+    display: grid !important;
+  }
+  .md\:hidden {
+    display: none !important;
+  }
+}
+
+/* Fallback base structure for Login & Modals */
+#login-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: #ffffff;
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  #login-screen {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: rgba(2, 6, 23, 0.7);
+}
+
+.modal-backdrop.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Aptos Narrow Typeface Definition (Microsoft 365 Core Typography)
+   ========================================================================== */
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow'), local('AptosNarrow'),
+       url('../fonts/Aptos-Narrow.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow'), local('AptosNarrow'),
+       url('../fonts/Aptos-Narrow.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow'), local('AptosNarrow'),
+       url('../fonts/Aptos-Narrow.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow'), local('AptosNarrow'),
+       url('../fonts/Aptos-Narrow.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow Bold'), local('AptosNarrow-Bold'),
+       url('../fonts/Aptos-Narrow-Bold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow Bold'), local('AptosNarrow-Bold'),
+       url('../fonts/Aptos-Narrow-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow Bold'), local('AptosNarrow-Bold'),
+       url('../fonts/Aptos-Narrow-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow Bold'), local('AptosNarrow-Bold'),
+       url('../fonts/Aptos-Narrow-Bold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow Bold'), local('AptosNarrow-Bold'),
+       url('../fonts/Aptos-Narrow-Bold.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow Italic'), local('AptosNarrow-Italic'),
+       url('../fonts/Aptos-Narrow-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow Bold Italic'), local('AptosNarrow-BoldItalic'),
+       url('../fonts/Aptos-Narrow-Bold-Italic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --primary-blue: #0284c7;
+  --primary-dark: #0f172a;
+  --aqua-cyan: #06b6d4;
+  --aqua-emerald: #10b981;
+  --aqua-amber: #f59e0b;
+  --aqua-rose: #f43f5e;
+}
+
+html {
+  font-size: 15.5px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15.5px;
+  background-color: #f8fafc;
+  color: #1e293b;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Sidebar Dark Scrollbar */
+.custom-dark-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-dark-scrollbar::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+.custom-dark-scrollbar::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+.custom-dark-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9;
+}
+
+/* Sidebar Responsive & Collapse Transitions */
+#sidebar {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+#sidebar-backdrop {
+  transition: opacity 0.25s ease;
+}
+
+/* Card Transitions & Hover effects */
+.hover-lift {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.12), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+}
+
+/* Navigation active indicator */
+.nav-link.active {
+  background-color: rgba(6, 182, 212, 0.12);
+  color: #0284c7;
+  border-right: 4px solid #0284c7;
+  font-weight: 600;
+}
+
+/* Status badges */
+.badge-activo {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+.badge-carencia {
+  background-color: #fff1f2;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+  animation: pulse-border 2s infinite;
+}
+.badge-descanso {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+@keyframes pulse-border {
+  0% {
+    box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.3);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(225, 29, 72, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(225, 29, 72, 0);
+  }
+}
+
+/* Water depth visual indicator */
+.water-gauge {
+  background: linear-gradient(180deg, rgba(6, 182, 212, 0.25) 0%, rgba(2, 132, 199, 0.6) 100%);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.water-gauge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Modal styles */
+.modal-backdrop {
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+/* Tab active */
+.sub-tab-btn.active {
+  color: #0284c7;
+  border-bottom: 2px solid #0284c7;
+  font-weight: 600;
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+  }
+  #sidebar, #top-bar, .no-print, button, .action-buttons, .modal-backdrop {
+    display: none !important;
+  }
+  #main-content {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-break-inside {
+    break-inside: avoid;
+  }
+  .card, .shadow-sm, .shadow-md, .shadow-lg {
+    box-shadow: none !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+}
+
+.print-only {
+  display: none;
+}
+
+/* Google reCAPTCHA v3 Badge display */
+.grecaptcha-badge { visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }
