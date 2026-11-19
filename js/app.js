@@ -11264,6 +11264,371 @@ window.openEditExpenseModal = openEditExpenseModal;
 window.submitEditExpense = submitEditExpense;
 window.deleteExpense = deleteExpense;
 
+
+// ----------------------------------------------------
+// GESTIÓN DE COMPROBANTES DE PAGO DE NÓMINA (VER, EDITAR, ELIMINAR, IMPRIMIR)
+// ----------------------------------------------------
+function openViewPayrollPaymentModal(payId) {
+  const p = (appData.payrollPayments || []).find(item => item.id === payId);
+  if (!p) {
+    showNotification('No se encontró el comprobante de nómina solicitado.', 'error');
+    return;
+  }
+
+  const emp = (appData.employees || []).find(e => e.id === p.employeeId);
+  const empName = emp ? emp.name : (p.employeeName || 'Empleado Piscícola');
+  const empRole = emp ? emp.role : (p.role || 'Operario de Campo');
+  const empDoc = emp ? (emp.docId || 'Sin registrar') : 'Sin registrar';
+  const empPhone = emp ? (emp.phone || 'Sin registrar') : 'Sin registrar';
+  const empBank = emp ? (emp.bankInfo || p.paymentMethod || 'Efectivo en Granja') : (p.paymentMethod || 'Efectivo en Granja');
+
+  const badgeEl = document.getElementById('view-pay-badge');
+  const idDispEl = document.getElementById('view-pay-id-display');
+  const dateEl = document.getElementById('view-pay-date');
+  const periodEl = document.getElementById('view-pay-period');
+  const methodEl = document.getElementById('view-pay-method');
+  const empRoleEl = document.getElementById('view-pay-emp-role');
+  const empNameEl = document.getElementById('view-pay-emp-name');
+  const empDocEl = document.getElementById('view-pay-emp-doc');
+  const empPhoneEl = document.getElementById('view-pay-emp-phone');
+  const empBankEl = document.getElementById('view-pay-emp-bank');
+  const baseEl = document.getElementById('view-pay-base');
+  const bonusesEl = document.getElementById('view-pay-bonuses');
+  const deductionsEl = document.getElementById('view-pay-deductions');
+  const netEl = document.getElementById('view-pay-net');
+  const editBtn = document.getElementById('btn-view-pay-edit');
+  const printBtn = document.getElementById('btn-view-pay-print');
+
+  if (badgeEl) badgeEl.innerText = p.id;
+  if (idDispEl) idDispEl.innerText = p.id;
+  if (dateEl) dateEl.innerText = formatDate(p.date);
+  if (periodEl) periodEl.innerText = p.period || 'Periodo no especificado';
+  if (methodEl) methodEl.innerText = p.paymentMethod || 'Transferencia';
+  if (empRoleEl) empRoleEl.innerText = empRole;
+  if (empNameEl) empNameEl.innerText = empName;
+  if (empDocEl) empDocEl.innerText = empDoc;
+  if (empPhoneEl) empPhoneEl.innerText = empPhone;
+  if (empBankEl) empBankEl.innerText = empBank;
+
+  const baseVal = parseFloat(p.baseSalary) || 0;
+  const bonVal = parseFloat(p.bonuses) || 0;
+  const dedVal = parseFloat(p.deductions) || 0;
+  const netVal = parseFloat(p.netPaid) || (baseVal + bonVal - dedVal);
+
+  if (baseEl) baseEl.innerText = formatCurrency(baseVal);
+  if (bonusesEl) bonusesEl.innerText = `+${formatCurrency(bonVal)}`;
+  if (deductionsEl) deductionsEl.innerText = `-${formatCurrency(dedVal)}`;
+  if (netEl) netEl.innerText = formatCurrency(netVal);
+
+  if (printBtn) {
+    printBtn.onclick = () => printPayrollPaymentReceipt(p.id);
+  }
+
+  if (editBtn) {
+    if (isMasterUser()) {
+      editBtn.classList.remove('hidden');
+      editBtn.onclick = () => {
+        closeModal('modal-view-payroll-payment');
+        openEditPayrollPaymentModal(p.id);
+      };
+    } else {
+      editBtn.classList.add('hidden');
+    }
+  }
+
+  openModal('modal-view-payroll-payment');
+}
+
+function printPayrollPaymentReceipt(payId) {
+  const p = (appData.payrollPayments || []).find(item => item.id === payId);
+  if (!p) {
+    showNotification('No se encontró el comprobante para imprimir.', 'error');
+    return;
+  }
+  const emp = (appData.employees || []).find(e => e.id === p.employeeId);
+  const empName = emp ? emp.name : (p.employeeName || 'Empleado Piscícola');
+  const empRole = emp ? emp.role : (p.role || 'Operario de Campo');
+  const empDoc = emp ? (emp.docId || 'Sin registrar') : 'Sin registrar';
+  const empPhone = emp ? (emp.phone || 'Sin registrar') : 'Sin registrar';
+  const empBank = emp ? (emp.bankInfo || p.paymentMethod || 'Efectivo en Granja') : (p.paymentMethod || 'Efectivo en Granja');
+
+  const baseVal = parseFloat(p.baseSalary) || 0;
+  const bonVal = parseFloat(p.bonuses) || 0;
+  const dedVal = parseFloat(p.deductions) || 0;
+  const netVal = parseFloat(p.netPaid) || (baseVal + bonVal - dedVal);
+
+  const printWindow = window.open('', '_blank', 'width=800,height=750');
+  if (!printWindow) {
+    window.print();
+    return;
+  }
+
+  const company = appData.company || { name: 'DC PISCÍCOLA PRO', nit: '900.123.456-7', location: 'Granja Piscícola Integral' };
+
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <meta charset="UTF-8">
+      <title>Comprobante de Nómina - ${escapeHtml(p.id)}</title>
+      <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 30px; color: #1e293b; background: #fff; line-height: 1.4; }
+        .voucher-card { max-width: 680px; margin: 0 auto; border: 2px solid #0f766e; border-radius: 14px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 16px; }
+        .company-name { font-size: 20px; font-weight: 800; color: #047857; margin: 0; }
+        .company-sub { font-size: 11px; color: #64748b; margin: 2px 0 0; }
+        .receipt-badge { background: #ecfdf5; border: 1.5px solid #059669; color: #065f46; padding: 6px 12px; border-radius: 8px; text-align: right; }
+        .receipt-badge h2 { margin: 0; font-size: 14px; font-weight: 800; }
+        .receipt-badge p { margin: 0; font-size: 11px; font-weight: 600; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; background: #f8fafc; padding: 12px; border-radius: 8px; font-size: 12px; }
+        .info-item strong { display: block; font-size: 10px; text-transform: uppercase; color: #64748b; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 12px; }
+        th { background: #f1f5f9; text-align: left; padding: 8px 10px; font-size: 11px; text-transform: uppercase; color: #475569; border-bottom: 1px solid #cbd5e1; }
+        td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; }
+        .text-right { text-align: right; }
+        .total-box { background: #064e3b; color: white; padding: 12px 16px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .total-box .title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .total-box .amount { font-size: 22px; font-weight: 900; color: #34d399; }
+        .signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
+        .sig-box { text-align: center; border-top: 1px solid #94a3b8; padding-top: 6px; font-size: 11px; font-weight: 700; color: #334155; }
+        .sig-sub { font-size: 10px; color: #64748b; font-weight: normal; margin-top: 2px; }
+        @media print {
+          body { margin: 0; }
+          .voucher-card { border: none; padding: 0; box-shadow: none; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="voucher-card">
+        <div class="header">
+          <div>
+            <h1 class="company-name">${escapeHtml(company.name || 'DC PISCÍCOLA PRO')}</h1>
+            <p class="company-sub">SISTEMA INTEGRAL ACUÍCOLA • NIT: ${escapeHtml(company.nit || '900.123.456-7')}</p>
+            <p class="company-sub">${escapeHtml(company.location || 'Granja Piscícola')}</p>
+          </div>
+          <div class="receipt-badge">
+            <h2>COMPROBANTE DE NÓMINA</h2>
+            <p>${escapeHtml(p.id)}</p>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <strong>Empleado:</strong>
+            <span>${escapeHtml(empName)}</span>
+          </div>
+          <div class="info-item">
+            <strong>Cargo / Rol:</strong>
+            <span>${escapeHtml(empRole)}</span>
+          </div>
+          <div class="info-item">
+            <strong>C.C. / Documento:</strong>
+            <span>${escapeHtml(empDoc)}</span>
+          </div>
+          <div class="info-item">
+            <strong>Teléfono:</strong>
+            <span>${escapeHtml(empPhone)}</span>
+          </div>
+          <div class="info-item">
+            <strong>Fecha de Pago:</strong>
+            <span>${formatDate(p.date)}</span>
+          </div>
+          <div class="info-item">
+            <strong>Periodo Liquidado:</strong>
+            <span>${escapeHtml(p.period || '-')}</span>
+          </div>
+          <div class="info-item">
+            <strong>Forma de Pago:</strong>
+            <span>${escapeHtml(p.paymentMethod || 'Efectivo')}</span>
+          </div>
+          <div class="info-item">
+            <strong>Cuenta / Soporte:</strong>
+            <span>${escapeHtml(empBank)}</span>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Concepto de Liquidación</th>
+              <th class="text-right">Devengado (+)</th>
+              <th class="text-right">Deducción (-)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Salario Básico Asignado (${escapeHtml(p.period || 'Periodo')})</td>
+              <td class="text-right" style="font-weight: 700;">${formatCurrency(baseVal)}</td>
+              <td class="text-right">-</td>
+            </tr>
+            <tr>
+              <td>Bonificaciones, Auxilios o Extras</td>
+              <td class="text-right" style="color: #059669; font-weight: 700;">+${formatCurrency(bonVal)}</td>
+              <td class="text-right">-</td>
+            </tr>
+            <tr>
+              <td>Deducciones, Préstamos o Retenciones</td>
+              <td class="text-right">-</td>
+              <td class="text-right" style="color: #e11d48; font-weight: 700;">-${formatCurrency(dedVal)}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="total-box">
+          <div class="title">Neto Total Pagado al Empleado</div>
+          <div class="amount">${formatCurrency(netVal)}</div>
+        </div>
+
+        <div class="signatures">
+          <div class="sig-box">
+            Firma del Empleado
+            <div class="sig-sub">C.C. ${escapeHtml(empDoc)} - ${escapeHtml(empName)}</div>
+          </div>
+          <div class="sig-box">
+            Responsable de Nómina / Pagador
+            <div class="sig-sub">DC Piscícola • Aprobado y Pagado</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        window.onload = function() { window.print(); };
+      </script>
+    </body>
+    </html>
+  `);
+  printWindow.document.close();
+}
+
+function openEditPayrollPaymentModal(payId) {
+  if (!isMasterUser()) {
+    showNotification('Acceso de Solo Lectura: Tu cuenta es de perfil Lite. No tienes permisos para editar nóminas.', 'warning');
+    return;
+  }
+
+  const p = (appData.payrollPayments || []).find(item => item.id === payId);
+  if (!p) {
+    showNotification('No se encontró el comprobante de nómina a editar.', 'error');
+    return;
+  }
+
+  const idInput = document.getElementById('edit-pay-id');
+  const empSelect = document.getElementById('edit-pay-emp-id');
+  const dateInput = document.getElementById('edit-pay-date');
+  const periodInput = document.getElementById('edit-pay-period');
+  const baseInput = document.getElementById('edit-pay-base');
+  const bonusesInput = document.getElementById('edit-pay-bonuses');
+  const deductionsInput = document.getElementById('edit-pay-deductions');
+  const methodSelect = document.getElementById('edit-pay-method');
+  const badgeEl = document.getElementById('edit-pay-badge');
+
+  if (empSelect) {
+    empSelect.innerHTML = `<option value="">-- Seleccionar Empleado --</option>` +
+      (appData.employees || []).map(e => `<option value="${e.id}" ${e.id === p.employeeId ? 'selected' : ''}>${e.name} (${e.role})</option>`).join('');
+    empSelect.value = p.employeeId || '';
+  }
+
+  if (idInput) idInput.value = p.id;
+  if (dateInput) dateInput.value = p.date || '';
+  if (periodInput) periodInput.value = p.period || '';
+  if (baseInput) baseInput.value = p.baseSalary || 0;
+  if (bonusesInput) bonusesInput.value = p.bonuses || 0;
+  if (deductionsInput) deductionsInput.value = p.deductions || 0;
+  if (methodSelect) methodSelect.value = p.paymentMethod || 'Efectivo en Granja';
+  if (badgeEl) badgeEl.innerText = p.id;
+
+  updateEditPayrollNetPreview();
+  openModal('modal-edit-payroll-payment');
+}
+
+function updateEditPayrollNetPreview() {
+  const base = parseFloat(document.getElementById('edit-pay-base')?.value) || 0;
+  const bon = parseFloat(document.getElementById('edit-pay-bonuses')?.value) || 0;
+  const ded = parseFloat(document.getElementById('edit-pay-deductions')?.value) || 0;
+  const net = base + bon - ded;
+  const previewEl = document.getElementById('edit-pay-net-preview');
+  if (previewEl) {
+    previewEl.innerText = formatCurrency(net);
+  }
+}
+
+function submitEditPayrollPayment(event) {
+  event.preventDefault();
+  if (!isMasterUser()) {
+    showNotification('Acceso de Solo Lectura: Tu cuenta es de perfil Lite. No tienes permisos para modificar nóminas.', 'warning');
+    return;
+  }
+
+  const id = document.getElementById('edit-pay-id').value;
+  const p = (appData.payrollPayments || []).find(item => item.id === id);
+  if (!p) {
+    showNotification('Error al ubicar el pago de nómina a modificar.', 'error');
+    return;
+  }
+
+  const employeeId = document.getElementById('edit-pay-emp-id').value;
+  const date = document.getElementById('edit-pay-date').value || p.date;
+  const period = document.getElementById('edit-pay-period').value.trim();
+  const baseSalary = parseFloat(document.getElementById('edit-pay-base').value) || 0;
+  const bonuses = parseFloat(document.getElementById('edit-pay-bonuses').value) || 0;
+  const deductions = parseFloat(document.getElementById('edit-pay-deductions').value) || 0;
+  const netPaid = baseSalary + bonuses - deductions;
+  const paymentMethod = document.getElementById('edit-pay-method').value;
+
+  const emp = (appData.employees || []).find(e => e.id === employeeId);
+
+  p.employeeId = employeeId;
+  if (emp) {
+    p.employeeName = emp.name;
+    p.role = emp.role;
+  }
+  p.date = date;
+  p.period = period;
+  p.baseSalary = baseSalary;
+  p.bonuses = bonuses;
+  p.deductions = deductions;
+  p.netPaid = netPaid;
+  p.paymentMethod = paymentMethod;
+
+  PiscicolaStorage.save(appData);
+  PiscicolaStorage.syncPost('payroll', p);
+
+  closeModal('modal-edit-payroll-payment');
+  renderFinanzas();
+  showNotification(`¡Comprobante ${p.id} actualizado exitosamente!`, 'success');
+}
+
+function deletePayrollPayment(payId) {
+  if (!isMasterUser()) {
+    showNotification('Acceso de Solo Lectura: Tu cuenta es de perfil Lite. No tienes permisos para eliminar pagos de nómina.', 'warning');
+    return;
+  }
+
+  const p = (appData.payrollPayments || []).find(item => item.id === payId);
+  if (!p) {
+    showNotification('Pago de nómina no encontrado.', 'error');
+    return;
+  }
+
+  const emp = (appData.employees || []).find(e => e.id === p.employeeId);
+  const empName = emp ? emp.name : (p.employeeName || 'el operario');
+  const confirmMsg = `¿Estás seguro de que deseas eliminar el comprobante ${p.id} correspondiente a ${empName} por valor de ${formatCurrency(p.netPaid)}?`;
+  if (!confirm(confirmMsg)) return;
+
+  appData.payrollPayments = appData.payrollPayments.filter(item => item.id !== payId);
+  PiscicolaStorage.save(appData);
+  PiscicolaStorage.syncDelete('payroll', payId);
+
+  renderFinanzas();
+  showNotification(`Comprobante ${p.id} eliminado correctamente.`, 'info');
+}
+
+window.openViewPayrollPaymentModal = openViewPayrollPaymentModal;
+window.printPayrollPaymentReceipt = printPayrollPaymentReceipt;
+window.openEditPayrollPaymentModal = openEditPayrollPaymentModal;
+window.updateEditPayrollNetPreview = updateEditPayrollNetPreview;
+window.submitEditPayrollPayment = submitEditPayrollPayment;
+window.deletePayrollPayment = deletePayrollPayment;
+
 function renderPayrollSection() {
   const allPayroll = appData.payrollPayments || [];
   const filtered = allPayroll.filter(p => matchesFinanceFilter(p, 'payroll'));
@@ -11342,12 +11707,13 @@ function renderPayrollSection() {
                 <th class="p-3 text-right">Deducciones</th>
                 <th class="p-3 text-right">Neto Pagado</th>
                 <th class="p-3">Método</th>
+                <th class="p-3 text-right">Acciones</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
               ${filtered.length === 0 ? `
                 <tr>
-                  <td colspan="9" class="py-12 px-6 text-center">
+                  <td colspan="10" class="py-12 px-6 text-center">
                     <div class="max-w-xs mx-auto flex flex-col items-center">
                       <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-lg mb-2">
                         <i class="fa-solid fa-money-check-dollar"></i>
@@ -11365,7 +11731,7 @@ function renderPayrollSection() {
               ` : grouped.map(group => `
                 <!-- Group Date Header (Día específico con subtotal de nómina del día) -->
                 <tr class="bg-slate-100/80 border-y border-slate-200">
-                  <td colspan="9" class="py-2 px-3 text-xs font-bold text-slate-800">
+                  <td colspan="10" class="py-2 px-3 text-xs font-bold text-slate-800">
                     <div class="flex items-center justify-between flex-wrap gap-2">
                       <span class="flex items-center gap-1.5 text-emerald-950 font-black">
                         <i class="fa-regular fa-calendar-days text-emerald-600"></i>
@@ -11390,6 +11756,21 @@ function renderPayrollSection() {
                       <td class="p-3 text-right text-rose-600 font-semibold">-${formatCurrency(p.deductions || 0)}</td>
                       <td class="p-3 text-right font-black text-slate-900">${formatCurrency(p.netPaid)}</td>
                       <td class="p-3 text-slate-500 whitespace-nowrap">${escapeHtml(p.paymentMethod || 'Transferencia')}</td>
+                      <td class="p-3 text-right whitespace-nowrap">
+                        <div class="flex items-center justify-end gap-1.5">
+                          <button onclick="openViewPayrollPaymentModal('${p.id}')" title="Ver comprobante" class="w-7 h-7 bg-sky-50 text-sky-700 hover:bg-sky-100 rounded-lg flex items-center justify-center transition cursor-pointer shadow-2xs">
+                            <i class="fa-regular fa-eye text-xs"></i>
+                          </button>
+                          ${isMasterUser() ? `
+                            <button onclick="openEditPayrollPaymentModal('${p.id}')" title="Editar pago" class="w-7 h-7 bg-amber-50 text-amber-700 hover:bg-amber-100 rounded-lg flex items-center justify-center transition cursor-pointer shadow-2xs">
+                              <i class="fa-solid fa-pen-to-square text-xs"></i>
+                            </button>
+                            <button onclick="deletePayrollPayment('${p.id}')" title="Eliminar pago" class="w-7 h-7 bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-lg flex items-center justify-center transition cursor-pointer shadow-2xs">
+                              <i class="fa-solid fa-trash text-xs"></i>
+                            </button>
+                          ` : ''}
+                        </div>
+                      </td>
                     </tr>
                   `;
                 }).join('')}
@@ -11402,7 +11783,7 @@ function renderPayrollSection() {
                     Total Nómina Pagada ${isFiltered ? 'en Periodo Filtrado' : 'Histórico General'} (${filtered.length} pagos)
                   </td>
                   <td class="p-3 text-right text-emerald-900 text-sm font-black">${formatCurrency(totalFilteredAmount)}</td>
-                  <td></td>
+                  <td colspan="2"></td>
                 </tr>
               </tfoot>
             ` : ''}
@@ -11618,6 +11999,7 @@ function renderReportes() {
       const netPaid = parseFloat(p.netPaid) || 0;
       payrollCost += netPaid;
       monthPayrollList.push({
+        id: p.id,
         date: p.date,
         employeeName: p.employeeName || 'Operario',
         role: p.role || 'Operario',
@@ -12083,11 +12465,13 @@ function renderReportes() {
                     <th class="p-3">N° Comprobante</th>
                     <th class="p-3 text-right">Neto Pagado</th>
                     <th class="p-3 text-right">% Rubro</th>
+                    <th class="p-3 text-right">Acciones</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                   ${monthPayrollList.length > 0 ? monthPayrollList.map(pay => {
                     const payPct = payrollCost > 0 ? ((pay.netPaid / payrollCost) * 100).toFixed(1) : '0.0';
+                    const targetId = pay.id || pay.receiptRef;
                     return `
                       <tr class="hover:bg-emerald-50/30 transition-colors">
                         <td class="p-3 text-slate-500 whitespace-nowrap font-medium">${formatDate(pay.date)}</td>
@@ -12101,11 +12485,26 @@ function renderReportes() {
                         </td>
                         <td class="p-3 text-right font-black text-emerald-900 whitespace-nowrap">${formatCurrency(pay.netPaid)}</td>
                         <td class="p-3 text-right font-bold text-emerald-700 whitespace-nowrap">${payPct}%</td>
+                        <td class="p-3 text-right whitespace-nowrap">
+                          <div class="flex items-center justify-end gap-1.5">
+                            <button onclick="openViewPayrollPaymentModal('${targetId}')" title="Ver comprobante" class="w-7 h-7 bg-sky-50 text-sky-700 hover:bg-sky-100 rounded-lg flex items-center justify-center transition cursor-pointer shadow-2xs">
+                              <i class="fa-regular fa-eye text-xs"></i>
+                            </button>
+                            ${isMasterUser() ? `
+                              <button onclick="openEditPayrollPaymentModal('${targetId}')" title="Editar pago" class="w-7 h-7 bg-amber-50 text-amber-700 hover:bg-amber-100 rounded-lg flex items-center justify-center transition cursor-pointer shadow-2xs">
+                                <i class="fa-solid fa-pen-to-square text-xs"></i>
+                              </button>
+                              <button onclick="deletePayrollPayment('${targetId}')" title="Eliminar pago" class="w-7 h-7 bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-lg flex items-center justify-center transition cursor-pointer shadow-2xs">
+                                <i class="fa-solid fa-trash text-xs"></i>
+                              </button>
+                            ` : ''}
+                          </div>
+                        </td>
                       </tr>
                     `;
                   }).join('') : `
                     <tr>
-                      <td colspan="7" class="p-6 text-center text-slate-400 italic">No se registraron pagos de nómina en este mes.</td>
+                      <td colspan="8" class="p-6 text-center text-slate-400 italic">No se registraron pagos de nómina en este mes.</td>
                     </tr>
                   `}
                 </tbody>
@@ -12115,6 +12514,7 @@ function renderReportes() {
                       <td colspan="5" class="p-3 text-right uppercase tracking-wider text-[11px] text-slate-600">Total Nómina Operaria:</td>
                       <td class="p-3 text-right font-black text-emerald-900 whitespace-nowrap text-sm">${formatCurrency(payrollCost)}</td>
                       <td class="p-3 text-right font-black text-emerald-700 whitespace-nowrap">100.0%</td>
+                      <td></td>
                     </tr>
                   </tfoot>
                 ` : ''}
