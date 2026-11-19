@@ -60,9 +60,6 @@ img, svg, video {
   position: fixed;
   inset: 0;
   z-index: 50;
-  background-color: #ffffff;
-  display: grid;
-  grid-template-columns: 1fr;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -71,12 +68,6 @@ img, svg, video {
   #login-screen {
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
-}
-
-@media (min-width: 768px) {
-  #login-screen {
-    grid-template-columns: 1fr 1fr;
   }
 }
 

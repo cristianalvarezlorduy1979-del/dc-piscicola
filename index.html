@@ -75,174 +75,88 @@
 </head>
 <body class="bg-slate-50 text-slate-800 flex h-screen overflow-hidden font-sans">
 
-  <!-- FULLSCREEN LOGIN SCREEN (Edge-to-Edge 50/50 Split on Desktop, Clean App Style on Mobile) -->
-  <div id="login-screen" class="fixed inset-0 z-50 bg-white grid grid-cols-1 md:grid-cols-2 overflow-y-auto font-sans">
+  <!-- FULLSCREEN LOGIN SCREEN (DC PROCESOS FULL-WIDTH PANORAMIC AQUACULTURE DESIGN) -->
+  <div id="login-screen" class="fixed inset-0 z-50 bg-cover bg-center bg-no-repeat overflow-y-auto font-sans flex items-center justify-center md:justify-end p-4 sm:p-6 lg:p-12 relative" style="background-image: url('img/fondo_2.jpg');">
     
-    <!-- LEFT COLUMN (50% Width): Deep Aquatic Multipantalla Mural (Matching DC RestoData Reference) -->
-    <div class="login-desktop-showcase hidden md:flex bg-gradient-to-br from-[#061b22] via-[#092933] to-[#0d3b49] p-8 lg:p-10 text-white flex-col justify-between relative overflow-hidden min-h-[560px] md:min-h-full border-r border-slate-800/80">
-      <!-- Glow ambient background lights -->
-      <div class="absolute -top-32 -left-32 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-teal-400/10 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- Dark gradient overlay to ensure contrast and readability -->
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/60 via-slate-950/30 to-slate-950/80 pointer-events-none"></div>
 
-      <!-- Top Header Pills (Esquina superior izquierda y derecha) -->
-      <div class="w-full flex items-center justify-between max-w-2xl mx-auto z-10 mb-2">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-cyan-400/25 text-cyan-300 text-[11px] font-extrabold tracking-widest uppercase shadow-xs">
-          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.8)]"></span>
-          <span>ECOSISTEMA DC ASESORÍAS</span>
-        </div>
-        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 text-[11px] font-bold shadow-xs">
-          <i class="fa-solid fa-cloud text-emerald-400"></i>
-          <span>Nube Sincronizada</span>
-        </div>
-      </div>
-
-      <!-- Branding Subtitle, Title & Slogan -->
-      <div class="z-10 text-center my-auto py-2">
-        <div class="flex items-center justify-center gap-3 mb-2">
-          <div class="w-10 h-10 rounded-full p-0.5 bg-gradient-to-tr from-cyan-400 via-sky-300 to-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.5)] flex items-center justify-center shrink-0">
-            <img src="img/dc_logo.jpg" alt="DC Piscícola" class="w-full h-full rounded-full object-cover border border-[#061b22]">
-          </div>
-          <div class="text-left">
-            <span class="text-[11px] font-bold tracking-[0.25em] text-cyan-300 uppercase block leading-none">DC ASESORÍAS</span>
-            <h2 class="text-2xl lg:text-3xl font-black text-white tracking-wide uppercase leading-tight mt-0.5">
-              DC PISCÍCOLA
-            </h2>
-          </div>
-        </div>
-
-        <p class="text-xs lg:text-sm text-cyan-100/80 font-normal max-w-md mx-auto leading-relaxed">
-          "Innovación, control y rentabilidad en cada siembra." Monitoreo integral de lotes, densidad, mortalidad y cosechas en tu PC y Celular.
-        </p>
-
-        <!-- DEVICE SHOWCASE MOCKUP (PC + SMARTPHONE OVERLAP) -->
-        <div class="relative my-6 max-w-lg mx-auto flex items-center justify-center">
-          
-          <!-- Mockup PC Frame (Back Layer) -->
-          <div class="relative w-[86%] rounded-xl bg-slate-950 border border-slate-700/80 overflow-hidden shadow-2xl">
-            <!-- Window header bar -->
-            <div class="bg-slate-900/95 px-3.5 py-1.5 border-b border-slate-800 flex items-center justify-between">
-              <div class="flex items-center gap-1.5">
-                <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
-              </div>
-              <span class="text-[10px] text-slate-400 font-mono tracking-tight">dc-piscicola-pro.web.app/siembras</span>
-              <div class="w-6"></div>
-            </div>
-
-            <!-- Screen Image inside PC -->
-            <div class="relative aspect-[16/10] bg-slate-900 overflow-hidden">
-              <img src="img/mockup_siembras.jpg" alt="Control de Siembras y Lotes Activos" class="w-full h-full object-cover object-top opacity-95">
-              
-              <!-- Floating Badge over PC -->
-              <div class="absolute top-2.5 left-2.5 px-3 py-1 rounded-lg bg-black/75 backdrop-blur-md border border-emerald-400/40 text-emerald-300 text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-lg">
-                <i class="fa-solid fa-fish text-emerald-400"></i>
-                <span>Control de Siembras y Lotes Activos</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Mockup Smartphone Frame (Front Right Overlap Layer) -->
-          <div class="absolute -right-2 lg:right-0 -bottom-4 lg:-bottom-2 w-[38%] rounded-[26px] bg-slate-950 border-[3.5px] border-slate-800 overflow-hidden shadow-[0_20px_45px_-10px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.1)] z-20">
-            <!-- Speaker notch -->
-            <div class="bg-slate-950 h-3 flex items-center justify-center">
-              <div class="w-8 h-1 rounded-full bg-slate-800"></div>
-            </div>
-            <!-- Screen inside phone -->
-            <div class="relative aspect-[9/18] bg-white overflow-hidden">
-              <img src="img/mockup_mobile_login.jpg" alt="App Celular" class="w-full h-full object-cover object-top">
-            </div>
-          </div>
-
-          <!-- Floating Badge under Smartphone -->
-          <div class="absolute -bottom-1.5 right-2 lg:right-4 z-30 px-3 py-1 rounded-full bg-slate-950/90 backdrop-blur-md border border-sky-400/40 text-sky-300 text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-xl">
-            <i class="fa-solid fa-mobile-screen"></i>
-            <span>App Móvil Android & iOS</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer status in left half (Pinned to bottom) -->
-      <div class="w-full flex items-center justify-between text-xs text-white/70 pt-4 border-t border-white/10 max-w-2xl mx-auto z-10">
-        <span class="flex items-center gap-1.5 text-white/80 font-medium">
-          <i class="fa-solid fa-shield-halved text-emerald-400"></i> Control Operativo y de Lotes
-        </span>
-        <span class="flex items-center gap-1.5 font-bold text-cyan-300">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span data-app-brand="full">DC Piscícola v1.0</span>
-        </span>
+    <!-- Top Left Badge: ECOSISTEMA DC ASESORÍAS -->
+    <div class="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/70 backdrop-blur-md border border-white/15 text-white text-[11px] sm:text-xs font-black tracking-widest uppercase shadow-xl">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.85)]"></span>
+        <span>ECOSISTEMA DC ASESORÍAS</span>
       </div>
     </div>
 
-    <!-- RIGHT COLUMN (Form Container): Pure White, Centered, App Style on Mobile -->
-    <div class="bg-white flex flex-col justify-start md:justify-center items-center px-5 pt-7 pb-10 sm:p-10 md:p-14 overflow-y-auto min-h-full">
-      <div class="w-full max-w-md mx-auto py-2">
-        
-        <!-- MOBILE BRANDING HEADER (Matches DC reference app layout on mobile devices) -->
-        <div class="md:hidden flex flex-col items-center text-center pt-2 mb-4">
-          <!-- Circular Logo with Cyan Neon Glow Ring -->
-          <div class="relative mb-2.5">
-            <div class="w-[92px] h-[92px] rounded-full p-1 bg-gradient-to-tr from-cyan-400 via-sky-300 to-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.45)] flex items-center justify-center mx-auto">
-              <img src="img/dc_logo.jpg" alt="DC Piscícola" class="w-full h-full rounded-full object-cover border-2 border-[#0a2933]">
-            </div>
-          </div>
+    <!-- Bottom Left Badge: Context Title (Hidden on small mobile screens to prevent clutter) -->
+    <div class="hidden sm:inline-flex absolute bottom-6 left-6 z-20 items-center gap-2 px-4 py-2 rounded-xl bg-slate-950/75 backdrop-blur-md border border-white/15 text-white text-xs font-bold tracking-wide shadow-xl">
+      <i class="fa-solid fa-location-dot text-cyan-400"></i>
+      <span>Estanques en Tierra y Espejo de Agua</span>
+    </div>
 
-          <!-- App Title with Version Badge -->
-          <div class="flex items-center justify-center gap-2 mb-2">
-            <h2 class="text-2xl font-black text-[#0f3a47] tracking-wider uppercase">
-              DC PISCÍCOLA
-            </h2>
-            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#fef3e7] text-[#c2410c] border border-[#fed7aa] shadow-2xs">
-              v1.0
-            </span>
-          </div>
-
-          <!-- Slogan in Pill Banner -->
-          <div class="w-full max-w-[325px] mx-auto bg-[#fef3e7] border border-[#fed7aa] rounded-full px-3.5 py-1.5 text-[#9a3412] text-center shadow-2xs mb-2">
-            <span class="text-[10px] sm:text-[11px] font-black uppercase tracking-wider block">
-              "INNOVACIÓN, CONTROL Y RENTABILIDAD EN CADA SIEMBRA"
-            </span>
+    <!-- RIGHT FLOATING LOGIN CARD (MATCHING DC PROCESOS REFERENCE DESIGN) -->
+    <div class="relative z-20 w-full max-w-[430px] my-auto rounded-[32px] bg-[#071720]/94 backdrop-blur-xl border border-cyan-500/25 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_30px_rgba(6,182,212,0.15)] p-6 sm:p-8 lg:p-9 text-white flex flex-col justify-between">
+      
+      <!-- Card Header: Logo, Branding & Slogan -->
+      <div class="text-center mb-4">
+        <!-- Circular Logo with Cyan Neon Glow Ring -->
+        <div class="relative mb-2.5 inline-block">
+          <div class="w-[84px] h-[84px] rounded-full p-1 bg-gradient-to-tr from-cyan-400 via-sky-300 to-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.55)] flex items-center justify-center mx-auto">
+            <img src="img/dc_logo.jpg" alt="DC Piscícola" class="w-full h-full rounded-full object-cover border-2 border-[#071720]">
           </div>
         </div>
 
-        <!-- Tag Header for Desktop -->
-        <div class="hidden md:block text-[11px] font-extrabold text-slate-500 uppercase tracking-widest text-center mb-1">
-          SISTEMA INTEGRAL ACUÍCOLA
+        <span class="text-[11px] font-extrabold tracking-[0.25em] text-cyan-300 uppercase block mb-0.5">DC ASESORÍAS</span>
+        <h2 class="text-2xl font-black text-white tracking-wider uppercase mb-1">
+          DC PISCÍCOLA
+        </h2>
+
+        <!-- Version Pill Badge -->
+        <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#0a232e] border border-cyan-400/40 text-cyan-300 text-[11px] font-bold shadow-xs mb-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span>DC Piscícola v1.0</span>
         </div>
 
-        <!-- Main Form Heading -->
-        <h1 class="text-2xl sm:text-[30px] font-black text-[#0f3a47] text-center tracking-tight leading-tight mb-1">
-          Iniciar Sesión
-        </h1>
-        <p class="text-xs sm:text-sm text-slate-500 text-center mb-6 font-normal">
-          Accede según el perfil asignado para tu empresa
+        <!-- Slogan -->
+        <p class="text-xs text-slate-300/90 font-medium italic">
+          "Innovación, control y rentabilidad en cada siembra."
         </p>
+      </div>
+
+      <!-- Form Section -->
+      <div>
+        <div class="text-center mb-3">
+          <span class="text-[10px] font-extrabold tracking-widest uppercase text-cyan-400 block mb-0.5">SISTEMA INTEGRAL ACUÍCOLA</span>
+          <h1 class="text-lg font-black text-white leading-tight">Iniciar Sesión</h1>
+          <p class="text-xs text-slate-400 mt-0.5 font-normal">Accede a la plataforma con tu usuario o correo electrónico</p>
+        </div>
 
         <!-- Error Alert -->
-        <div id="login-error" class="hidden p-3 mb-4 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl flex items-center gap-2">
-          <i class="fa-solid fa-circle-exclamation shrink-0"></i>
+        <div id="login-error" class="hidden p-3 mb-3 bg-rose-950/80 border border-rose-500/60 text-rose-200 text-xs rounded-xl flex items-center gap-2">
+          <i class="fa-solid fa-circle-exclamation shrink-0 text-rose-400"></i>
           <span id="login-error-text">Credenciales incorrectas</span>
         </div>
 
         <!-- Login Form -->
-        <form id="login-form" class="space-y-4">
-          <!-- Email Input -->
+        <form id="login-form" class="space-y-3.5">
+          <!-- Email / User Input -->
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1.5">Correo Electrónico</label>
+            <label class="block text-xs font-bold text-slate-200 mb-1">Correo Electrónico o Usuario *</label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
                 <i class="fa-regular fa-envelope"></i>
               </span>
-              <input type="email" id="login-email" class="w-full pl-10 pr-4 py-3 bg-[#f0f6fc] border border-slate-200/90 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:bg-white focus:border-blue-500 transition" placeholder="dcasesorias@gmail.com o correo de tu empresa" required>
+              <input type="text" id="login-email" class="w-full pl-10 pr-4 py-2.5 bg-white text-slate-800 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-cyan-400 transition" placeholder="dcasesorias@gmail.com o usuario" required>
             </div>
-            <span class="block text-[11px] text-slate-400 mt-1.5 font-normal">Este correo está amarrado al nombre de tu empresa</span>
+            <span class="block text-[11px] text-slate-400 mt-1 font-normal">Este correo está amarrado al nombre de tu empresa</span>
           </div>
 
           <!-- Password Input -->
           <div>
-            <div class="flex items-center justify-between mb-1.5">
-              <label class="block text-xs font-bold text-slate-700">Contraseña</label>
-              <button type="button" onclick="forgotPasswordAlert()" class="text-xs text-[#0284c7] hover:text-[#0369a1] font-semibold hover:underline cursor-pointer">
+            <div class="flex items-center justify-between mb-1">
+              <label class="block text-xs font-bold text-slate-200">Contraseña *</label>
+              <button type="button" onclick="forgotPasswordAlert()" class="text-xs text-cyan-400 hover:text-cyan-300 font-semibold hover:underline cursor-pointer">
                 ¿Olvidaste tu contraseña?
               </button>
             </div>
@@ -250,41 +164,41 @@
               <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
                 <i class="fa-solid fa-lock"></i>
               </span>
-              <input type="password" id="login-password" class="w-full pl-10 pr-10 py-3 bg-[#f0f6fc] border border-slate-200/90 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-blue-600 focus:bg-white focus:border-blue-500 transition" placeholder="••••••" required>
+              <input type="password" id="login-password" class="w-full pl-10 pr-10 py-2.5 bg-white text-slate-800 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-cyan-400 transition" placeholder="••••••" required>
               <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 text-sm cursor-pointer" title="Ver contraseña">
                 <i id="toggle-pwd-icon" class="fa-regular fa-eye"></i>
               </button>
             </div>
           </div>
 
-          <!-- Submit Button -->
-          <div class="pt-2">
-            <button type="submit" id="btn-login-submit" class="w-full py-3.5 bg-[#1d4ed8] hover:bg-[#1e40af] text-white rounded-xl text-xs sm:text-sm font-extrabold uppercase tracking-wider shadow-md shadow-blue-600/30 transition cursor-pointer flex items-center justify-center gap-2">
+          <!-- Submit Button (Gradient from Blue/Cyan to Emerald matching DC Procesos) -->
+          <div class="pt-1">
+            <button type="submit" id="btn-login-submit" class="w-full py-3 bg-gradient-to-r from-blue-600 via-sky-500 to-emerald-400 hover:opacity-95 text-slate-950 rounded-xl text-xs sm:text-sm font-black uppercase tracking-wider shadow-lg shadow-cyan-500/25 transition cursor-pointer flex items-center justify-center gap-2">
               <span>INGRESAR AL SISTEMA</span>
               <i class="fa-solid fa-arrow-right text-xs"></i>
             </button>
           </div>
 
-          <!-- Aviso Oficial Google reCAPTCHA v3 (Centrado con la pastilla de ingreso) -->
-          <div class="mt-3 flex justify-center text-center">
-            <div class="inline-flex items-center justify-center gap-1.5 text-center text-[11px] text-slate-500">
-              <i class="fa-solid fa-shield-halved text-[#0284c7]"></i>
-              <span>Protegido con Google reCAPTCHA v3 · <a href="https://policies.google.com/privacy" target="_blank" class="text-[#0284c7] font-semibold hover:underline">Privacidad</a> y <a href="https://policies.google.com/terms" target="_blank" class="text-[#0284c7] font-semibold hover:underline">Condiciones</a></span>
+          <!-- Aviso Oficial Google reCAPTCHA v3 -->
+          <div class="mt-2.5 flex justify-center text-center">
+            <div class="inline-flex items-center justify-center gap-1.5 text-center text-[11px] text-slate-400">
+              <i class="fa-solid fa-shield-halved text-cyan-400"></i>
+              <span>Protegido con Google reCAPTCHA v3 · <a href="https://policies.google.com/privacy" target="_blank" class="text-cyan-400 font-semibold hover:underline">Privacidad</a> y <a href="https://policies.google.com/terms" target="_blank" class="text-cyan-400 font-semibold hover:underline">Condiciones</a></span>
             </div>
           </div>
         </form>
 
         <!-- Bottom Social / Contact Connect -->
-        <div class="mt-6 pt-1 text-center">
-          <div class="relative text-center my-3">
-            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-200"></div></div>
-            <span class="relative bg-white px-3 text-xs text-slate-400 font-medium">o conéctate con nosotros</span>
+        <div class="mt-4 pt-1 text-center">
+          <div class="relative text-center my-2">
+            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-700/80"></div></div>
+            <span class="relative bg-[#071720] px-3 text-[11px] text-slate-400 font-medium">o conéctate con nosotros</span>
           </div>
-          <div class="flex items-center justify-center gap-3 pt-1">
-            <a href="https://wa.me/573000000000" target="_blank" class="w-10 h-10 rounded-full bg-white border border-emerald-300 text-emerald-500 hover:bg-emerald-50 flex items-center justify-center text-base transition shadow-2xs" title="WhatsApp Soporte">
+          <div class="flex items-center justify-center gap-3 pt-0.5">
+            <a href="https://wa.me/573000000000" target="_blank" class="w-9 h-9 rounded-full bg-slate-900 border border-emerald-400/40 text-emerald-400 hover:bg-emerald-950 flex items-center justify-center text-sm transition shadow-2xs" title="WhatsApp Soporte">
               <i class="fa-brands fa-whatsapp"></i>
             </a>
-            <a href="mailto:dcasesorias@gmail.com" class="w-10 h-10 rounded-full bg-white border border-sky-300 text-sky-600 hover:bg-sky-50 flex items-center justify-center text-base transition shadow-2xs" title="Correo Electrónico">
+            <a href="mailto:dcasesorias@gmail.com" class="w-9 h-9 rounded-full bg-slate-900 border border-sky-400/40 text-sky-400 hover:bg-sky-950 flex items-center justify-center text-sm transition shadow-2xs" title="Correo Electrónico">
               <i class="fa-regular fa-envelope"></i>
             </a>
           </div>
