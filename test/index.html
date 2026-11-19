@@ -231,8 +231,14 @@
     <!-- Clean natural overlay: gentle soft shade on left for card, 100% transparent in center for natural vibrant water mirror -->
     <div class="absolute inset-0 bg-gradient-to-r from-slate-950/45 via-transparent to-slate-950/40 pointer-events-none"></div>
 
-    <!-- Top Right Badge: ECOSISTEMA DC ASESORÍAS -->
-    <div class="absolute top-3 right-4 sm:top-4 sm:right-6 z-20">
+    <!-- Top Right Area: Install App Button & ECOSISTEMA DC ASESORÍAS -->
+    <div class="absolute top-3 right-4 sm:top-4 sm:right-6 z-20 flex items-center gap-2 sm:gap-3">
+      <!-- Install App Button (PWA) -->
+      <button type="button" onclick="promptInstallPWA()" class="btn-install-pwa inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-cyan-500 via-sky-400 to-emerald-400 hover:opacity-95 text-slate-950 font-black text-[11px] sm:text-xs transition shadow-lg shadow-cyan-500/30 cursor-pointer" title="Instalar DC Piscícola como aplicación de escritorio o móvil">
+        <i class="fa-solid fa-download text-xs text-slate-950"></i>
+        <span>Instalar App</span>
+      </button>
+
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/80 backdrop-blur-md border border-white/20 text-white text-[11px] sm:text-xs font-black tracking-widest uppercase shadow-xl">
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.85)]"></span>
         <span>ECOSISTEMA DC ASESORÍAS</span>
@@ -595,6 +601,12 @@
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           <span class="hidden sm:inline">Nube Sincronizada</span>
           <i class="fa-solid fa-cloud text-emerald-600 text-[10px]"></i>
+        </button>
+
+        <!-- Install App Button (PWA) -->
+        <button type="button" onclick="promptInstallPWA()" class="btn-install-pwa flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-600 hover:opacity-95 text-white font-extrabold rounded-xl text-xs shadow-xs transition cursor-pointer shrink-0 whitespace-nowrap" title="Instalar DC Piscícola como aplicación de escritorio o celular">
+          <i class="fa-solid fa-download text-xs text-cyan-200"></i>
+          <span class="hidden md:inline">Instalar App</span>
         </button>
 
 
@@ -4965,6 +4977,73 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL: GUÍA DE INSTALACIÓN DE APLICACIÓN (PWA) -->
+  <div id="modal-pwa-install-guide" class="modal-backdrop fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-slate-100 p-6 space-y-4">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 via-sky-600 to-blue-700 text-white flex items-center justify-center text-xl shadow-lg shadow-cyan-500/25">
+            <i class="fa-solid fa-download"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-black text-slate-900 leading-tight">Instalar DC Piscícola</h3>
+            <p class="text-xs text-slate-500">Acceso directo en tu Escritorio y Pantalla Completa</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-pwa-install-guide')" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-700">
+        <!-- Windows / PC -->
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-start gap-3">
+          <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 text-sm">
+            <i class="fa-brands fa-windows"></i>
+          </div>
+          <div>
+            <span class="font-bold text-slate-900 block text-xs mb-0.5">En Windows / Mac (Chrome o Edge)</span>
+            <p class="text-[11.5px] text-slate-600 leading-relaxed">
+              Haz clic en el icono <strong>🖥️ o ⊕</strong> en la barra de direcciones de tu navegador, o abre el <strong>Menú (⋮) &rarr; "Instalar DC Piscícola"</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- Android -->
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-start gap-3">
+          <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-sm">
+            <i class="fa-brands fa-android"></i>
+          </div>
+          <div>
+            <span class="font-bold text-slate-900 block text-xs mb-0.5">En Celulares y Tablets Android</span>
+            <p class="text-[11.5px] text-slate-600 leading-relaxed">
+              Presiona el menú de <strong>tres puntos (⋮)</strong> en la esquina superior derecha y selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- iPhone / iPad iOS -->
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-start gap-3">
+          <div class="w-8 h-8 rounded-xl bg-slate-200 text-slate-800 flex items-center justify-center shrink-0 text-sm">
+            <i class="fa-brands fa-apple"></i>
+          </div>
+          <div>
+            <span class="font-bold text-slate-900 block text-xs mb-0.5">En iPhone o iPad (Safari)</span>
+            <p class="text-[11.5px] text-slate-600 leading-relaxed">
+              Toca el botón <strong>Compartir</strong> (<i class="fa-solid fa-arrow-up-from-bracket"></i>) y selecciona <strong>"Agregar al inicio"</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2 flex justify-end">
+        <button type="button" onclick="closeModal('modal-pwa-install-guide')" class="w-full py-2.5 bg-slate-900 hover:bg-black text-white font-bold rounded-xl text-xs transition cursor-pointer text-center">
+          Entendido
+        </button>
+      </div>
     </div>
   </div>
 

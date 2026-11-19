@@ -885,11 +885,32 @@ if (typeof window !== 'undefined') {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredInstallPrompt = e;
-    const btn = document.getElementById('btn-install-pwa');
-    if (btn) btn.style.display = 'flex';
+    console.log('📲 PWA listo para instalar');
+    document.querySelectorAll('.btn-install-pwa').forEach(el => {
+      el.classList.remove('hidden');
+      el.style.display = '';
+    });
   });
 
-  // Register PWA service worker for mobile
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    console.log('🎉 PWA instalada exitosamente');
+    document.querySelectorAll('.btn-install-pwa').forEach(el => {
+      el.classList.add('hidden');
+    });
+    if (typeof showNotification === 'function') {
+      showNotification('¡DC Piscícola ha sido instalada en tu equipo!', 'success', 5000);
+    }
+  });
+
+  // Si ya se está ejecutando instalada en modo Standalone/Fullscreen, ocultar botones
+  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+    document.querySelectorAll('.btn-install-pwa').forEach(el => {
+      el.classList.add('hidden');
+    });
+  }
+
+  // Register PWA service worker for mobile/desktop
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
@@ -906,10 +927,19 @@ function promptInstallPWA() {
   if (deferredInstallPrompt) {
     deferredInstallPrompt.prompt();
     deferredInstallPrompt.userChoice.then((choice) => {
+      if (choice && choice.outcome === 'accepted') {
+        console.log('Usuario aceptó instalar la PWA');
+      }
       deferredInstallPrompt = null;
     });
   } else {
-    showNotification('Para instalar la App: Abre este enlace en Google Chrome en tu celular, toca los tres puntos (menú superior) y selecciona "Instalar aplicación" o "Agregar a pantalla principal".', 'info', 8000);
+    // Si no está disponible el evento nativo inmediato, abrir guía interactiva
+    if (typeof openModal === 'function') {
+      openModal('modal-pwa-install-guide');
+    } else {
+      const modal = document.getElementById('modal-pwa-install-guide');
+      if (modal) modal.classList.remove('hidden');
+    }
   }
 }
 
