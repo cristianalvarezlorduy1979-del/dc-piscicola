@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS: Local high-reliability bundle with CDN fallback -->
-  <script src="../js/tailwind.js?v=1.0.4"></script>
+  <script src="../js/tailwind.js?v=1.0.5"></script>
   <script>
     if (typeof tailwind === 'undefined') {
       document.write('<script src="https://cdn.tailwindcss.com/3.4.17"><\/script>');
@@ -72,7 +72,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-database-compat.js"></script>
 
   <!-- Custom styles -->
-  <link rel="stylesheet" href="/css/styles.css?v=1.0.4">
+  <link rel="stylesheet" href="/css/styles.css?v=1.0.5">
 
   <script>
     window.IS_STAGING_ENV = true;
@@ -1509,20 +1509,28 @@
     </div>
   </div>
 
-  <!-- 7. MODAL: REGISTRAR GASTO -->
+    <!-- 7. MODAL: REGISTRAR GASTO -->
   <div id="modal-new-expense" class="modal-backdrop fixed inset-0 z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden border border-slate-100">
-      <div class="bg-gradient-to-r from-amber-600 to-amber-700 p-4 text-white flex items-center justify-between">
-        <h3 class="font-bold text-sm flex items-center gap-2">
-          <i class="fa-solid fa-receipt"></i> Registrar Gasto Operativo
-        </h3>
-        <button onclick="closeModal('modal-new-expense')" class="text-white/80 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <form id="form-add-expense" class="p-5 space-y-3.5 text-xs">
-        <div class="grid grid-cols-2 gap-3">
+    <div class="bg-white rounded-3xl max-w-3xl lg:max-w-4xl w-full shadow-2xl overflow-hidden border border-slate-100 max-h-[94vh] flex flex-col">
+      <div class="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 p-5 text-white flex items-center justify-between shrink-0 shadow-md">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white text-lg font-black shadow-inner">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Fecha</label>
-            <input type="date" id="exp-date" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl" required>
+            <h3 class="font-extrabold text-base leading-tight">Registrar Gasto Operativo</h3>
+            <p class="text-xs text-amber-100">Ingresa egresos de servicios públicos, transporte, mantenimiento y suministros</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-new-expense')" class="text-white/80 hover:text-white text-xl cursor-pointer transition"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <form id="form-add-expense" class="p-5 sm:p-6 overflow-y-auto flex-1 space-y-4 text-xs">
+        <!-- 1. Cabecera y Clasificación del Gasto -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200/70">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Fecha de Pago *</label>
+            <input type="date" id="exp-date" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800" required>
           </div>
           <div>
             <div class="flex items-center justify-between mb-1">
@@ -1531,44 +1539,64 @@
                 <i class="fa-solid fa-plus-circle"></i> + Nueva
               </button>
             </div>
-            <select id="exp-category" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800" required>
+            <select id="exp-category" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800" required>
               <option value="">-- Seleccionar Categoría --</option>
             </select>
           </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <div class="flex items-center justify-between mb-1">
-              <label class="block font-bold text-slate-700">Beneficiario / Empresa *</label>
-              <button type="button" onclick="openModal('modal-new-supplier')" class="text-[10px] text-purple-600 hover:text-purple-800 font-semibold hover:underline cursor-pointer" title="Registrar nuevo proveedor en catálogo">
-                <i class="fa-solid fa-plus-circle mr-0.5"></i>+ Proveedor
-              </button>
-            </div>
-            <div class="relative">
-              <input type="text" id="exp-recipient" list="expense-recipients-datalist" class="w-full p-2.5 pl-8 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 focus:bg-white focus:border-sky-500 transition" placeholder="Escribe o selecciona proveedor / empresa..." autocomplete="off" required>
-              <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
-            </div>
-          </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">Método de Pago</label>
-            <select id="exp-method" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+            <select id="exp-method" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800">
               <option value="Transferencia Bancaria">Transferencia Bancaria</option>
               <option value="Efectivo">Efectivo</option>
               <option value="Cheque">Cheque</option>
             </select>
           </div>
         </div>
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Concepto / Detalle *</label>
-          <input type="text" id="exp-description" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl" placeholder="Detalle del gasto" required>
+
+        <!-- 2. Beneficiario, Soporte y Concepto Detallado -->
+        <div class="bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200/70 space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="block font-bold text-slate-700">Beneficiario / Proveedor / Empresa *</label>
+                <button type="button" onclick="openModal('modal-new-supplier')" class="text-[10px] text-purple-600 hover:text-purple-800 font-semibold hover:underline cursor-pointer" title="Registrar nuevo proveedor en catálogo">
+                  <i class="fa-solid fa-plus-circle mr-0.5"></i>+ Proveedor
+                </button>
+              </div>
+              <div class="relative">
+                <input type="text" id="exp-recipient" list="expense-recipients-datalist" class="w-full p-2.5 pl-8 bg-white border border-slate-200 rounded-xl font-bold text-slate-800 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition" placeholder="Escribe o selecciona proveedor / empresa..." autocomplete="off" required>
+                <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+              </div>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Valor Total Pagado ($) *</label>
+              <input type="number" id="exp-amount" oninput="updateNewExpenseTotalPreview()" class="w-full p-2.5 bg-white border border-amber-300 rounded-xl font-black text-amber-800 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500" placeholder="Ej: 500000" min="0" step="any" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Concepto / Detalle del Gasto *</label>
+            <input type="text" id="exp-description" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-medium text-slate-800 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition" placeholder="Ej: Pago de recibo de energía estación de bombeo / Transporte de insumos" required>
+          </div>
         </div>
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Valor Total Pagado ($) *</label>
-          <input type="number" id="exp-amount" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-black text-amber-700 text-sm" placeholder="Ej: 500000" required>
+
+        <!-- 3. Resumen y Total del Gasto -->
+        <div class="bg-gradient-to-r from-slate-900 to-amber-950 p-4 rounded-2xl text-white flex items-center justify-between shadow-sm">
+          <div>
+            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider block">Total Liquidado del Gasto</span>
+            <span class="text-xs text-amber-300 font-medium">Egreso operacional liquidado</span>
+          </div>
+          <div class="text-right">
+            <span class="text-2xl font-black text-amber-400 tracking-tight" id="exp-total-display">$ 0</span>
+          </div>
         </div>
+
+        <!-- 4. Botones -->
         <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
-          <button type="button" onclick="closeModal('modal-new-expense')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-semibold">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold shadow-md">Guardar Gasto</button>
+          <button type="button" onclick="closeModal('modal-new-expense')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-bold cursor-pointer transition">Cancelar</button>
+          <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white rounded-xl font-black shadow-md shadow-amber-600/20 flex items-center gap-2 cursor-pointer transition">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar Gasto
+          </button>
         </div>
       </form>
     </div>
@@ -1652,32 +1680,33 @@
     </div>
   </div>
 
-  <!-- 7.2. MODAL: EDITAR GASTO OPERATIVO -->
+    <!-- 7.2. MODAL: EDITAR GASTO OPERATIVO -->
   <div id="modal-edit-expense" class="modal-backdrop fixed inset-0 z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden border border-slate-100 max-h-[94vh] flex flex-col">
+    <div class="bg-white rounded-3xl max-w-3xl lg:max-w-4xl w-full shadow-2xl overflow-hidden border border-slate-100 max-h-[94vh] flex flex-col">
       <div class="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 p-5 text-white flex items-center justify-between shrink-0 shadow-md">
         <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white text-base font-black shadow-inner">
+          <div class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white text-base font-black shadow-inner">
             <i class="fa-solid fa-pen-to-square"></i>
           </div>
           <div>
-            <h3 class="font-extrabold text-sm leading-tight flex items-center gap-2">
+            <h3 class="font-extrabold text-base leading-tight flex items-center gap-2">
               <span>Editar Gasto Operativo</span>
               <span id="edit-exp-badge" class="px-2 py-0.5 rounded-full text-[10px] bg-white/25 text-white font-mono font-bold"></span>
             </h3>
-            <p class="text-[11px] text-amber-100">Modifica los datos del gasto registrado</p>
+            <p class="text-xs text-amber-100">Modifica los datos del gasto operacional registrado</p>
           </div>
         </div>
-        <button onclick="closeModal('modal-edit-expense')" class="text-white/80 hover:text-white text-lg cursor-pointer transition"><i class="fa-solid fa-xmark"></i></button>
+        <button onclick="closeModal('modal-edit-expense')" class="text-white/80 hover:text-white text-xl cursor-pointer transition"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <form id="form-edit-expense" onsubmit="submitEditExpense(event)" class="p-5 space-y-3.5 text-xs overflow-y-auto flex-1">
+      <form id="form-edit-expense" onsubmit="submitEditExpense(event)" class="p-5 sm:p-6 space-y-4 text-xs overflow-y-auto flex-1">
         <input type="hidden" id="edit-exp-id">
 
-        <div class="grid grid-cols-2 gap-3">
+        <!-- 1. Cabecera y Clasificación -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200/70">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Fecha *</label>
-            <input type="date" id="edit-exp-date" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold" required>
+            <label class="block font-bold text-slate-700 mb-1">Fecha de Pago *</label>
+            <input type="date" id="edit-exp-date" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800" required>
           </div>
           <div>
             <div class="flex items-center justify-between mb-1">
@@ -1686,28 +1715,13 @@
                 <i class="fa-solid fa-plus-circle"></i> + Nueva
               </button>
             </div>
-            <select id="edit-exp-category" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800" required>
+            <select id="edit-exp-category" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800" required>
               <option value="">-- Seleccionar Categoría --</option>
             </select>
           </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <div class="flex items-center justify-between mb-1">
-              <label class="block font-bold text-slate-700">Beneficiario / Empresa *</label>
-              <button type="button" onclick="openModal('modal-new-supplier')" class="text-[10px] text-purple-600 hover:text-purple-800 font-semibold hover:underline cursor-pointer" title="Registrar nuevo proveedor en catálogo">
-                <i class="fa-solid fa-plus-circle mr-0.5"></i>+ Proveedor
-              </button>
-            </div>
-            <div class="relative">
-              <input type="text" id="edit-exp-recipient" list="expense-recipients-datalist" class="w-full p-2.5 pl-8 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 focus:bg-white focus:border-sky-500 transition" placeholder="Escribe o selecciona proveedor / empresa..." autocomplete="off" required>
-              <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
-            </div>
-          </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">Método de Pago</label>
-            <select id="edit-exp-method" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold">
+            <select id="edit-exp-method" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800">
               <option value="Transferencia Bancaria">Transferencia Bancaria</option>
               <option value="Efectivo">Efectivo</option>
               <option value="Cheque">Cheque</option>
@@ -1715,24 +1729,54 @@
           </div>
         </div>
 
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">ID / N° Recibo / Soporte</label>
-          <input type="text" id="edit-exp-receipt-ref" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-amber-800" placeholder="Ej: GAS-3762 o REC-045">
+        <!-- 2. Beneficiario, Soporte y Concepto -->
+        <div class="bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200/70 space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="sm:col-span-2">
+              <div class="flex items-center justify-between mb-1">
+                <label class="block font-bold text-slate-700">Beneficiario / Proveedor / Empresa *</label>
+                <button type="button" onclick="openModal('modal-new-supplier')" class="text-[10px] text-purple-600 hover:text-purple-800 font-semibold hover:underline cursor-pointer" title="Registrar nuevo proveedor en catálogo">
+                  <i class="fa-solid fa-plus-circle mr-0.5"></i>+ Proveedor
+                </button>
+              </div>
+              <div class="relative">
+                <input type="text" id="edit-exp-recipient" list="expense-recipients-datalist" class="w-full p-2.5 pl-8 bg-white border border-slate-200 rounded-xl font-bold text-slate-800 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition" placeholder="Escribe o selecciona proveedor / empresa..." autocomplete="off" required>
+                <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+              </div>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">ID / N° Recibo / Soporte</label>
+              <input type="text" id="edit-exp-receipt-ref" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-bold text-amber-800" placeholder="Ej: GAS-3762">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="sm:col-span-2">
+              <label class="block font-bold text-slate-700 mb-1">Concepto / Detalle *</label>
+              <input type="text" id="edit-exp-description" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-medium text-slate-800 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition" placeholder="Detalle del gasto" required>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Valor Total Pagado ($) *</label>
+              <input type="number" id="edit-exp-amount" oninput="updateEditExpenseTotalPreview()" class="w-full p-2.5 bg-white border border-amber-300 rounded-xl font-black text-amber-800 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500" placeholder="Ej: 150000" min="0" step="any" required>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Concepto / Detalle *</label>
-          <input type="text" id="edit-exp-description" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-medium" placeholder="Detalle del gasto" required>
+        <!-- 3. Resumen y Total -->
+        <div class="bg-gradient-to-r from-slate-900 to-amber-950 p-4 rounded-2xl text-white flex items-center justify-between shadow-sm">
+          <div>
+            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider block">Total Liquidado del Gasto</span>
+            <span class="text-xs text-amber-300 font-medium">Egreso operacional liquidado</span>
+          </div>
+          <div class="text-right">
+            <span class="text-2xl font-black text-amber-400 tracking-tight" id="edit-exp-total-display">$ 0</span>
+          </div>
         </div>
 
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Valor Total Pagado ($) *</label>
-          <input type="number" id="edit-exp-amount" class="w-full p-2.5 bg-amber-50/50 border border-amber-200 rounded-xl font-black text-amber-800 text-sm" placeholder="Ej: 150000" min="0" step="any" required>
-        </div>
-
+        <!-- 4. Botones -->
         <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
           <button type="button" onclick="closeModal('modal-edit-expense')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-bold cursor-pointer transition">Cancelar</button>
-          <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white rounded-xl font-black shadow-md shadow-amber-600/20 flex items-center gap-1.5 cursor-pointer transition">
+          <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white rounded-xl font-black shadow-md shadow-amber-600/20 flex items-center gap-2 cursor-pointer transition">
             <i class="fa-solid fa-floppy-disk"></i> Guardar Cambios
           </button>
         </div>
@@ -1740,63 +1784,89 @@
     </div>
   </div>
 
-  <!-- 8. MODAL: PAGAR NÓMINA -->
+    <!-- 8. MODAL: PAGAR NÓMINA -->
   <div id="modal-new-payroll-payment" class="modal-backdrop fixed inset-0 z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden border border-slate-100">
-      <div class="bg-gradient-to-r from-emerald-700 to-green-800 p-4 text-white flex items-center justify-between">
-        <h3 class="font-bold text-sm flex items-center gap-2">
-          <i class="fa-solid fa-money-check-dollar"></i> Generar Comprobante de Nómina
-        </h3>
-        <button onclick="closeModal('modal-new-payroll-payment')" class="text-white/80 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+    <div class="bg-white rounded-3xl max-w-3xl lg:max-w-4xl w-full shadow-2xl overflow-hidden border border-slate-100 max-h-[94vh] flex flex-col">
+      <div class="bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 p-5 text-white flex items-center justify-between shrink-0 shadow-md">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white text-lg font-black shadow-inner">
+            <i class="fa-solid fa-money-check-dollar"></i>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-base leading-tight">Generar Comprobante de Nómina</h3>
+            <p class="text-xs text-emerald-100">Liquidación y registro de pago de jornales o quincena a operarios piscícolas</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-new-payroll-payment')" class="text-white/80 hover:text-white text-xl cursor-pointer transition"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <form id="form-add-payroll" class="p-5 space-y-3.5 text-xs">
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Empleado Piscícola *</label>
-          <select id="pay-emp-id" class="employee-select w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold" required></select>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
+
+      <form id="form-add-payroll" class="p-5 sm:p-6 overflow-y-auto flex-1 space-y-4 text-xs">
+        <!-- 1. Empleado y Periodo -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200/70">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Fecha de Pago</label>
-            <input type="date" id="pay-date" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl" required>
+            <label class="block font-bold text-slate-700 mb-1">Empleado Piscícola *</label>
+            <select id="pay-emp-id" class="employee-select w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800" required></select>
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Periodo</label>
-            <input type="text" id="pay-period" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl" value="Segunda Quincena Septiembre 2026" required>
-          </div>
-        </div>
-        <div class="grid grid-cols-3 gap-3">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Salario Básico *</label>
-            <input type="number" id="pay-base" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold" placeholder="800000" required>
+            <label class="block font-bold text-slate-700 mb-1">Fecha de Pago *</label>
+            <input type="date" id="pay-date" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800" required>
           </div>
           <div>
-            <label class="block font-bold text-emerald-700 mb-1">Bonificaciones</label>
-            <input type="number" id="pay-bonuses" class="w-full p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl font-semibold" value="0">
-          </div>
-          <div>
-            <label class="block font-bold text-rose-700 mb-1">Deducciones</label>
-            <input type="number" id="pay-deductions" class="w-full p-2.5 bg-rose-50 border border-rose-200 rounded-xl font-semibold" value="0">
+            <label class="block font-bold text-slate-700 mb-1">Periodo Liquidado *</label>
+            <input type="text" id="pay-period" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800" placeholder="Ej: Primera Quincena Noviembre 2026" required>
           </div>
         </div>
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Forma de Pago</label>
-          <select id="pay-method" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
-            <option value="Transferencia Bancolombia">Transferencia Bancolombia</option>
-            <option value="Transferencia Davivienda">Transferencia Davivienda</option>
-            <option value="Nequi">Nequi</option>
-            <option value="Daviplata">Daviplata</option>
-            <option value="Efectivo en Granja">Efectivo en Granja</option>
-          </select>
+
+        <!-- 2. Desglose Salarial y Método de Pago -->
+        <div class="bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200/70 space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Salario Básico ($) *</label>
+              <input type="number" id="pay-base" oninput="updateNewPayrollNetPreview()" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-black text-slate-900 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" placeholder="800000" min="0" step="any" required>
+            </div>
+            <div>
+              <label class="block font-bold text-emerald-700 mb-1">Bonificaciones ($)</label>
+              <input type="number" id="pay-bonuses" oninput="updateNewPayrollNetPreview()" class="w-full p-2.5 bg-emerald-50/60 border border-emerald-200 rounded-xl font-bold text-emerald-800 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" value="0" min="0" step="any">
+            </div>
+            <div>
+              <label class="block font-bold text-rose-700 mb-1">Deducciones ($)</label>
+              <input type="number" id="pay-deductions" oninput="updateNewPayrollNetPreview()" class="w-full p-2.5 bg-rose-50/60 border border-rose-200 rounded-xl font-bold text-rose-800 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500" value="0" min="0" step="any">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Forma de Pago</label>
+              <select id="pay-method" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800">
+                <option value="Transferencia Bancolombia">Transferencia Bancolombia</option>
+                <option value="Transferencia Davivienda">Transferencia Davivienda</option>
+                <option value="Nequi">Nequi</option>
+                <option value="Daviplata">Daviplata</option>
+                <option value="Efectivo en Granja">Efectivo en Granja</option>
+              </select>
+            </div>
+          </div>
         </div>
+
+        <!-- 3. Resumen y Total Neto Liquidado -->
+        <div class="bg-gradient-to-r from-slate-900 to-emerald-950 p-4 rounded-2xl text-white flex items-center justify-between shadow-sm">
+          <div>
+            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider block">Neto Liquidado a Pagar</span>
+            <span class="text-xs text-emerald-300 font-medium">Básico + Bonificaciones - Deducciones</span>
+          </div>
+          <div class="text-right">
+            <span class="text-2xl font-black text-emerald-400 tracking-tight" id="pay-net-display">$ 0</span>
+          </div>
+        </div>
+
+        <!-- 4. Botones -->
         <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
-          <button type="button" onclick="closeModal('modal-new-payroll-payment')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-semibold">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold shadow-md">Registrar Pago</button>
+          <button type="button" onclick="closeModal('modal-new-payroll-payment')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-bold cursor-pointer transition">Cancelar</button>
+          <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl font-black shadow-md shadow-emerald-600/20 flex items-center gap-2 cursor-pointer transition">
+            <i class="fa-solid fa-floppy-disk"></i> Registrar Pago
+          </button>
         </div>
       </form>
     </div>
   </div>
 
-  
   <!-- 8.1. MODAL: VISUALIZAR COMPROBANTE DE NÓMINA -->
   <div id="modal-view-payroll-payment" class="modal-backdrop fixed inset-0 z-50 hidden items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl overflow-hidden border border-slate-100 max-h-[94vh] flex flex-col">
@@ -1897,79 +1967,87 @@
     </div>
   </div>
 
-  <!-- 8.2. MODAL: EDITAR PAGO DE NÓMINA -->
+    <!-- 8.2. MODAL: EDITAR PAGO DE NÓMINA -->
   <div id="modal-edit-payroll-payment" class="modal-backdrop fixed inset-0 z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden border border-slate-100 max-h-[94vh] flex flex-col">
+    <div class="bg-white rounded-3xl max-w-3xl lg:max-w-4xl w-full shadow-2xl overflow-hidden border border-slate-100 max-h-[94vh] flex flex-col">
       <div class="bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 p-5 text-white flex items-center justify-between shrink-0 shadow-md">
         <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white text-base font-black shadow-inner">
+          <div class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white text-base font-black shadow-inner">
             <i class="fa-solid fa-pen-to-square"></i>
           </div>
           <div>
-            <h3 class="font-extrabold text-sm leading-tight flex items-center gap-2">
+            <h3 class="font-extrabold text-base leading-tight flex items-center gap-2">
               <span>Editar Pago de Nómina</span>
               <span id="edit-pay-badge" class="px-2 py-0.5 rounded-full text-[10px] bg-white/25 text-white font-mono font-bold"></span>
             </h3>
-            <p class="text-[11px] text-emerald-100">Modifica los valores del comprobante liquidado</p>
+            <p class="text-xs text-emerald-100">Modifica los valores del comprobante liquidado</p>
           </div>
         </div>
-        <button onclick="closeModal('modal-edit-payroll-payment')" class="text-white/80 hover:text-white text-lg cursor-pointer transition"><i class="fa-solid fa-xmark"></i></button>
+        <button onclick="closeModal('modal-edit-payroll-payment')" class="text-white/80 hover:text-white text-xl cursor-pointer transition"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <form id="form-edit-payroll-payment" onsubmit="submitEditPayrollPayment(event)" class="p-5 space-y-3.5 text-xs overflow-y-auto flex-1">
+      <form id="form-edit-payroll-payment" onsubmit="submitEditPayrollPayment(event)" class="p-5 sm:p-6 space-y-4 text-xs overflow-y-auto flex-1">
         <input type="hidden" id="edit-pay-id">
 
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Empleado Piscícola *</label>
-          <select id="edit-pay-emp-id" class="employee-select w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800" required></select>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
+        <!-- 1. Empleado y Periodo -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200/70">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Empleado Piscícola *</label>
+            <select id="edit-pay-emp-id" class="employee-select w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800" required></select>
+          </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">Fecha de Pago *</label>
-            <input type="date" id="edit-pay-date" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold" required>
+            <input type="date" id="edit-pay-date" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800" required>
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Periodo *</label>
-            <input type="text" id="edit-pay-period" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold" required>
+            <label class="block font-bold text-slate-700 mb-1">Periodo Liquidado *</label>
+            <input type="text" id="edit-pay-period" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800" required>
           </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-3">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Básico ($) *</label>
-            <input type="number" id="edit-pay-base" oninput="updateEditPayrollNetPreview()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold" min="0" step="any" required>
-          </div>
-          <div>
-            <label class="block font-bold text-emerald-700 mb-1">Bonos ($)</label>
-            <input type="number" id="edit-pay-bonuses" oninput="updateEditPayrollNetPreview()" class="w-full p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl font-semibold" min="0" step="any">
-          </div>
-          <div>
-            <label class="block font-bold text-rose-700 mb-1">Deduc. ($)</label>
-            <input type="number" id="edit-pay-deductions" oninput="updateEditPayrollNetPreview()" class="w-full p-2.5 bg-rose-50 border border-rose-200 rounded-xl font-semibold" min="0" step="any">
+        <!-- 2. Desglose Salarial y Método de Pago -->
+        <div class="bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200/70 space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Salario Básico ($) *</label>
+              <input type="number" id="edit-pay-base" oninput="updateEditPayrollNetPreview()" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-black text-slate-900 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" min="0" step="any" required>
+            </div>
+            <div>
+              <label class="block font-bold text-emerald-700 mb-1">Bonificaciones ($)</label>
+              <input type="number" id="edit-pay-bonuses" oninput="updateEditPayrollNetPreview()" class="w-full p-2.5 bg-emerald-50/60 border border-emerald-200 rounded-xl font-bold text-emerald-800 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" min="0" step="any">
+            </div>
+            <div>
+              <label class="block font-bold text-rose-700 mb-1">Deducciones ($)</label>
+              <input type="number" id="edit-pay-deductions" oninput="updateEditPayrollNetPreview()" class="w-full p-2.5 bg-rose-50/60 border border-rose-200 rounded-xl font-bold text-rose-800 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500" min="0" step="any">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Forma de Pago</label>
+              <select id="edit-pay-method" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800">
+                <option value="Transferencia Bancolombia">Transferencia Bancolombia</option>
+                <option value="Transferencia Davivienda">Transferencia Davivienda</option>
+                <option value="Nequi">Nequi</option>
+                <option value="Daviplata">Daviplata</option>
+                <option value="Efectivo en Granja">Efectivo en Granja</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        <!-- Resumen neto calculado en vivo -->
-        <div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-200/80 flex items-center justify-between">
-          <span class="font-bold text-emerald-950 text-xs">Neto Calculado:</span>
-          <span id="edit-pay-net-preview" class="font-black text-emerald-800 text-sm">$ 0</span>
+        <!-- 3. Resumen y Total Neto Liquidado -->
+        <div class="bg-gradient-to-r from-slate-900 to-emerald-950 p-4 rounded-2xl text-white flex items-center justify-between shadow-sm">
+          <div>
+            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider block">Neto Liquidado a Pagar</span>
+            <span class="text-xs text-emerald-300 font-medium">Básico + Bonificaciones - Deducciones</span>
+          </div>
+          <div class="text-right">
+            <span class="text-2xl font-black text-emerald-400 tracking-tight" id="edit-pay-net-preview">$ 0</span>
+          </div>
         </div>
 
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Forma de Pago</label>
-          <select id="edit-pay-method" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold">
-            <option value="Transferencia Bancolombia">Transferencia Bancolombia</option>
-            <option value="Transferencia Davivienda">Transferencia Davivienda</option>
-            <option value="Nequi">Nequi</option>
-            <option value="Daviplata">Daviplata</option>
-            <option value="Efectivo en Granja">Efectivo en Granja</option>
-          </select>
-        </div>
-
+        <!-- 4. Botones -->
         <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
           <button type="button" onclick="closeModal('modal-edit-payroll-payment')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-bold cursor-pointer transition">Cancelar</button>
-          <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl font-black shadow-md shadow-emerald-600/20 flex items-center gap-1.5 cursor-pointer transition">
+          <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl font-black shadow-md shadow-emerald-600/20 flex items-center gap-2 cursor-pointer transition">
             <i class="fa-solid fa-floppy-disk"></i> Guardar Cambios
           </button>
         </div>
@@ -5235,7 +5313,7 @@
   <datalist id="purchase-inventory-datalist"></datalist>
 
   <!-- Application scripts with cache busting -->
-  <script src="/js/data.js?v=1.0.4"></script>
-  <script src="/js/app.js?v=1.0.4"></script>
+  <script src="/js/data.js?v=1.0.5"></script>
+  <script src="/js/app.js?v=1.0.5"></script>
 </body>
 </html>

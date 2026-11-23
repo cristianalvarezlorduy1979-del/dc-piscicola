@@ -11199,6 +11199,7 @@ function openEditExpenseModal(expenseId) {
   if (descInput) descInput.value = expense.description || '';
   if (amountInput) amountInput.value = expense.amount || 0;
   if (badgeEl) badgeEl.innerText = expense.receiptRef || expense.id;
+  updateEditExpenseTotalPreview();
 
   openModal('modal-edit-expense');
 }
@@ -11266,10 +11267,24 @@ function deleteExpense(expenseId) {
   showNotification('Gasto operativo eliminado correctamente.', 'info');
 }
 
+function updateNewExpenseTotalPreview() {
+  const amount = parseFloat(document.getElementById('exp-amount')?.value) || 0;
+  const display = document.getElementById('exp-total-display');
+  if (display) display.innerText = formatCurrency(amount);
+}
+
+function updateEditExpenseTotalPreview() {
+  const amount = parseFloat(document.getElementById('edit-exp-amount')?.value) || 0;
+  const display = document.getElementById('edit-exp-total-display');
+  if (display) display.innerText = formatCurrency(amount);
+}
+
 window.openViewExpenseModal = openViewExpenseModal;
 window.openEditExpenseModal = openEditExpenseModal;
 window.submitEditExpense = submitEditExpense;
 window.deleteExpense = deleteExpense;
+window.updateNewExpenseTotalPreview = updateNewExpenseTotalPreview;
+window.updateEditExpenseTotalPreview = updateEditExpenseTotalPreview;
 
 
 // ----------------------------------------------------
@@ -11547,6 +11562,17 @@ function openEditPayrollPaymentModal(payId) {
   openModal('modal-edit-payroll-payment');
 }
 
+function updateNewPayrollNetPreview() {
+  const base = parseFloat(document.getElementById('pay-base')?.value) || 0;
+  const bon = parseFloat(document.getElementById('pay-bonuses')?.value) || 0;
+  const ded = parseFloat(document.getElementById('pay-deductions')?.value) || 0;
+  const net = base + bon - ded;
+  const previewEl = document.getElementById('pay-net-display');
+  if (previewEl) {
+    previewEl.innerText = formatCurrency(net);
+  }
+}
+
 function updateEditPayrollNetPreview() {
   const base = parseFloat(document.getElementById('edit-pay-base')?.value) || 0;
   const bon = parseFloat(document.getElementById('edit-pay-bonuses')?.value) || 0;
@@ -11632,6 +11658,7 @@ function deletePayrollPayment(payId) {
 window.openViewPayrollPaymentModal = openViewPayrollPaymentModal;
 window.printPayrollPaymentReceipt = printPayrollPaymentReceipt;
 window.openEditPayrollPaymentModal = openEditPayrollPaymentModal;
+window.updateNewPayrollNetPreview = updateNewPayrollNetPreview;
 window.updateEditPayrollNetPreview = updateEditPayrollNetPreview;
 window.submitEditPayrollPayment = submitEditPayrollPayment;
 window.deletePayrollPayment = deletePayrollPayment;
