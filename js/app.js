@@ -10184,7 +10184,7 @@ function createPurchaseItemRowHtml(rowId, rowNum = 1, itemData = null) {
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-start">
-        <div class="sm:col-span-4">
+        <div class="sm:col-span-3">
           <label class="block font-semibold text-slate-600 text-[11px] mb-1">Insumo del Catálogo / Nombre *</label>
           <div class="relative">
             <input type="text" class="pur-item-search w-full p-2 pl-7.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 focus:outline-hidden" list="purchase-inventory-datalist" placeholder="Escribe para buscar o ingresar insumo..." value="${escapeHtml(desc)}" oninput="onPurchaseRowSearchInput(this)" onchange="onPurchaseRowSearchInput(this)" autocomplete="off" required>
@@ -10229,9 +10229,9 @@ function createPurchaseItemRowHtml(rowId, rowNum = 1, itemData = null) {
           <input type="number" step="1" min="0" class="pur-item-price w-full p-2 bg-white border border-slate-200 rounded-xl text-xs font-black text-slate-900" placeholder="0" value="${price}" oninput="onPurchaseRowCalculation(this)" required>
         </div>
 
-        <div class="sm:col-span-1 text-right">
-          <label class="block font-semibold text-slate-400 text-[10px] mb-1">Subtotal</label>
-          <div class="pur-item-subtotal-display font-black text-xs text-sky-800 py-2 truncate">${formatCurrency(subtotal)}</div>
+        <div class="sm:col-span-2 text-right">
+          <label class="block font-semibold text-slate-500 text-[11px] mb-1">Subtotal</label>
+          <div class="pur-item-subtotal-display font-black text-xs sm:text-sm text-sky-900 bg-sky-50 px-2.5 py-2 rounded-xl border border-sky-200/80 whitespace-nowrap text-right shadow-2xs">${formatCurrency(subtotal)}</div>
           <input type="hidden" class="pur-item-subtotal" value="${subtotal}">
         </div>
       </div>
