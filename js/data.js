@@ -5344,6 +5344,17 @@ class PiscicolaStorage {
       return;
     }
 
+    const activeId = data.activeCompanyId || 'EMP-004';
+    const activeStore = (data.companyStores && data.companyStores[activeId]) || {};
+    const localScore = this.countStoreEntities(activeStore);
+
+    // BLINDAJE ULTRA: Si los datos locales están truncados o degradados (< 50 entidades para EMP-004), NUNCA sobreescribir la nube
+    if (activeId === 'EMP-004' && localScore < 50) {
+      console.warn(`🛡️ [BLINDAJE ULTRA] Bloqueado guardado en la nube: los datos locales de EMP-004 tienen sólo ${localScore} entidades. Se previene sobreescritura accidental.`);
+      this.updateCloudSyncBadge(true, 'Protegido (Anti-degradación)');
+      return;
+    }
+
     try {
       this._isLocalSaving = true;
       this.updateCloudSyncBadge(true, 'Sincronizando...');

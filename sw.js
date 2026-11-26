@@ -1,5 +1,5 @@
 // DC Piscícola - Service Worker
-const CACHE_NAME = 'piscicola-v1.0.7';
+const CACHE_NAME = 'piscicola-v1.0.8';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
